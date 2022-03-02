@@ -1,1 +1,1 @@
-My long format readme
+My hidden files readme
