@@ -1,1 +1,1 @@
-My shell list readme
+My home shell readme
