@@ -4,9 +4,8 @@
 # When querying Nginx at its root / with a GET request
 # (requesting a page) using curl, it must return a page
 # that contains the string Hello World!
-apt-get -y update
-apt-get -y install nginx
-chown -R "$USER":"$USER" /var/www/html
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
-ufw allow 'Nginx HTTP'
-service nginx start
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install nginx -y
+sudo service nginx start
+echo "Hello World!" | tee /var/www/html/index.nginx-debian.html
