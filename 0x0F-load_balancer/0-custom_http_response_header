@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
-# Configuration of web-02 server
+# Configuration of web-02
 
 sudo apt-get -y update
-sudo apt-get install -y nginx
-sed -i "11i\add_header X-Served-By $HOSTNAME;" /etc/nginx/nginx.conf
-sudo service nginx restart
+sudo apt-get -y install nginx
+
+echo Hello world > /var/www/html/index.nginx-debian.html
+echo Ceci n\'est pas une page > /var/www/html/custom_404.html
+
+# Configuring redirection
+sudo sed -i '/^\sserver_name.*/a \        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+# Custom error page
+sudo sed -i '/^\slocation.*/i \        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
+
+# Configuring response header
+sudo sed -i '/^\slocation.*/i \        add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
+
+# Running the server
+sudo service nginx start
