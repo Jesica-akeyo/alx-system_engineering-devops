@@ -4,17 +4,26 @@
 sudo apt-get -y update
 sudo apt-get -y install nginx
 
-echo Hello world > /var/www/html/index.nginx-debian.html
-echo Ceci n\'est pas une page > /var/www/html/custom_404.html
+sudo mkdir -p /var/www/html
+sudo touch /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
+sudo touch /var/www/html/404.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
-# Configuring redirection
-sudo sed -i '/^\sserver_name.*/a \        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
+    location /redirect_me {
+        return 301 http://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
 
-# Custom error page
-sudo sed -i '/^\slocation.*/i \        error_page 404 /custom_404.html;' /etc/nginx/sites-available/default
-
-# Configuring response header
-sudo sed -i '/^\slocation.*/i \        add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
-
-# Running the server
-sudo service nginx start
+sudo service nginx restart
