@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Configuration of web-02 server
+
+sudo apt-get -y update
+sudo apt-get install -y nginx
+sed -i '11i\add_header X-Served-By $HOSTNAME;' /etc/nginx/nginx.conf
+sudo service nginx restart
