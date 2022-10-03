@@ -32,14 +32,14 @@ defaults
 	errorfile 502 /etc/haproxy/errors/502.http
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
-listen 12775-lb-01
-	bind *:80
-	mode http
-	balance roundrobin
-	option httpclose
-	option forwardfor
-	server 12775-web-02 3.234.252.177:80 check
-	server 12775-web-01 3.228.21.22:80 check
+#listen 12775-lb-01
+#	bind *:80
+#	mode http
+#	balance roundrobin
+#	option httpclose
+#	option forwardfor
+#	server 12775-web-02 3.234.252.177:80 check
+#	server 12775-web-01 3.228.21.22:80 check
 
 frontend www-http
 	bind *:80
